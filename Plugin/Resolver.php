@@ -14,17 +14,30 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
 class Resolver
 {
+    const BLOCKED_LIST = ['cart'];
+
+    /**
+     * @var \Magento\Framework\GraphQl\Config\Element\FieldFactory
+     */
+    private $fieldFactory;
+
     /**
      * @var bool
      */
     private $blockCaching;
 
-    public function __construct()
-    {
+    /**
+     * @param \Magento\Framework\GraphQl\Config\Element\FieldFactory $fieldFactory
+     */
+    public function __construct(
+        \Magento\Framework\GraphQl\Config\Element\FieldFactory $fieldFactory
+    ) {
         $this->blockCaching = false;
+        $this->fieldFactory = $fieldFactory;
     }
 
     /**
+     * Plugin
      * @param \Magento\GraphQlCache\Model\Plugin\Query\Resolver $resolver
      * @param ResolverInterface $subject
      * @param mixed $resolvedValue
@@ -33,6 +46,8 @@ class Resolver
      * @param ResolveInfo $info
      * @param array $value
      * @param array $args
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeAfterResolve(
         \Magento\GraphQlCache\Model\Plugin\Query\Resolver $resolver,
@@ -44,6 +59,25 @@ class Resolver
         array $value = null,
         array $args = null
     ) {
+        if (in_array($field->getName(), self::BLOCKED_LIST)) {
+            $this->blockCaching = true;
+        }
+
+        if ($this->blockCaching) {
+            $config = [
+                'name' => $field->getName(),
+                'type' => $field->getTypeName(),
+                'required' => $field->isRequired(),
+                'resolver' => $field->getResolver() ?: '',
+                'description' => $field->getDescription() ?: '',
+            ];
+            if ($field->isList()) {
+                $config['itemType'] = $field->getTypeName();
+            }
+
+            $field = $this->fieldFactory->createFromConfigData($config, $field->getArguments());
+        }
+
         return [$subject, $resolvedValue, $field, $context, $info, $value, $args];
     }
 }
