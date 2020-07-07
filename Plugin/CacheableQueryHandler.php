@@ -43,6 +43,7 @@ class CacheableQueryHandler
     }
 
     /**
+     * Plugin
      * @param \Magento\GraphQlCache\Model\CacheableQueryHandler $subject
      * @param mixed $result
      * @param array $resolvedValue
@@ -57,7 +58,7 @@ class CacheableQueryHandler
         $cacheable = $cacheAnnotation['cacheable'] ?? true;
         $cacheIdentityClass = $cacheAnnotation['cacheIdentity'] ?? '';
 
-        if ($this->request instanceof Http && !$this->isRequestMutation() && !empty($cacheIdentityClass)) {
+        if ($this->request instanceof Http && !empty($cacheIdentityClass)) {
             $cacheIdentity = $this->identityPool->get($cacheIdentityClass);
             $cacheTags = $cacheIdentity->getIdentities($resolvedValue);
             $this->cacheableQuery->addCacheTags($cacheTags);
@@ -66,14 +67,5 @@ class CacheableQueryHandler
         }
 
         $this->cacheableQuery->setCacheValidity($cacheable);
-    }
-
-    /**
-     * Check for Mutation
-     * @return bool
-     */
-    private function isRequestMutation(): bool
-    {
-        return false;
     }
 }
