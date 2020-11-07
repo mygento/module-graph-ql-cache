@@ -6,4 +6,7 @@
     <type name="Magento\GraphQlCache\Model\Plugin\Query\Resolver">
         <plugin name="mygento_cache" type="Mygento\GraphQlCache\Plugin\Resolver" />
     </type>
+    <type name="Magento\GraphQlCache\Model\CacheableQuery">
+        <plugin name="mygento_cache" type="Mygento\GraphQlCache\Plugin\CacheableQuery" />
+    </type>
 </config>
