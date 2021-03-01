@@ -4,7 +4,7 @@ php:
 - 7.4
 before_script:
 - sudo apt-get install libxml2-utils
-- composer self-update
+- composer self-update --1
 - echo "{\"http-basic\":{\"repo.magento.com\":{\"username\":\"${MAGE_LOGIN}\",\"password\":\"${MAGE_PWD}\"}}}" > auth.json
 - phpenv config-rm xdebug.ini
 - composer install --no-interaction --prefer-dist
