@@ -1,7 +1,6 @@
 {
   "name": "mygento/module-graph-ql-cache",
   "type": "magento2-module",
-  "version": "2.4.0",
   "license": "OSL-3.0",
   "homepage": "https://github.com/mygento/module-graph-ql-cache",
   "description": "Magento 2 GraphQL Cache",
@@ -26,7 +25,7 @@
     "magento/module-graph-ql-cache": "100.4.*"
   },
   "require-dev": {
-    "mygento/coding-standard": "~2.14.0-beta1"
+    "mygento/coding-standard": "~2.14.0"
   },
   "autoload": {
     "files": [
@@ -41,5 +40,12 @@
       "type": "composer",
       "url": "https://repo.magento.com"
     }
-  ]
+  ],
+  "config": {
+    "allow-plugins": {
+      "magento/composer-dependency-version-audit-plugin": false,
+      "phpro/grumphp": true,
+      "magento/magento-composer-installer": false
+    }
+  }
 }

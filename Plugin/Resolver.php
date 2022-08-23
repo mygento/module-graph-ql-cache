@@ -14,7 +14,7 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
 class Resolver
 {
-    const BLOCKED_LIST = ['cart', 'wishlist'];
+    public const BLOCKED_LIST = ['cart', 'wishlist'];
 
     /**
      * @var \Magento\Framework\Serialize\SerializerInterface
